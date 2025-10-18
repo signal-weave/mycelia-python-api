@@ -22,6 +22,8 @@ __all__ = [
     'Action',
     'Globals',
 
+    'DEAD_LETTER',
+
     'CMD_SEND',
     'CMD_ADD',
     'CMD_REMOVE',
@@ -46,6 +48,11 @@ __all__ = [
 ]
 
 API_PROTOCOL_VER = 1
+
+DEAD_LETTER = 'deadLetter'
+"""The channel name for dead letter channels.
+Used to subscribe to dead letter channels for handling dead messages.
+"""
 
 # -----Object Types-----
 
