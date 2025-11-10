@@ -72,6 +72,16 @@ CMD_REMOVE = 3
 CMD_UPDATE = 20
 CMD_SIGTERM = 50
 
+# -----Payload Encodings-----
+ENCODING_NA = 0
+ENCODING_JSON = 1
+ENCODING_XML = 2
+ENCODING_YAML = 3
+ENCODING_CSV = 4
+ENCODING_TOML = 5
+ENCODING_INI = 6
+ENCODING_PROTOBUF = 7
+
 # -----Channel Selection Strategies-----
 
 SS_RANDOM = 0
@@ -127,10 +137,13 @@ class _MyceliaObj(object):
         self.cmd_type: int = _CMD_UNKNOWN
         self.ack_policy: int = ACK_PLCY_NOREPLY
         self.timeout: float = 0.1
+
         self.arg1: str = ''
         self.arg2: str = ''
         self.arg3: str = ''
         self.arg4: str = ''
+
+        self.encoding: int = ENCODING_NA
         self.payload: _PAYLOAD_TYPE = ''
 
         self.uid: str = str(uuid.uuid4())
@@ -310,6 +323,7 @@ def _encode_mycelia_obj(obj: _MyceliaObj) -> bytes:
     out += _encode.write_str8(obj.arg4)
 
     # -----Payload-----
+    out += _encode.write_u8(obj.encoding)
     out += _encode.write_bytes16(obj.payload.encode('utf-8'))
 
     packet_bytes = bytes(out)
